@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[1]:
 
 
 # Importing libraries
@@ -13,7 +13,7 @@ import seaborn as sns
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[16]:
+# In[2]:
 
 
 # Loading dataset
@@ -22,56 +22,67 @@ housing = load_boston()
 print(housing.keys())
 
 
-# In[17]:
+# In[3]:
 
 
 print (housing.DESCR)
 
 
-# In[19]:
+# In[4]:
 
 
 # Creating dataframe with features
 housing_df = pd.DataFrame(housing.data, columns = housing.feature_names)
 
 
-# In[20]:
+# In[5]:
 
 
 # Adding target variable to the dataset
 housing_df['MEDV'] = housing.target
 
 
-# In[21]:
+# In[6]:
 
 
 housing_df.head()
 
 
-# In[22]:
+# In[7]:
 
 
 housing_df.info()
 
 
-# In[23]:
+# In[8]:
 
 
 housing_df.describe()
 
 
-# In[45]:
+# ## What's the price distribution of the housing?
+
+# In[9]:
 
 
 sns.set_theme(style="darkgrid")
 sns.displot(housing_df['MEDV'])
 
 
-# In[ ]:
+# ## Correlation matrix using heatmap
+
+# In[26]:
 
 
+# Correlation matrix
+housing_corr = housing_df.corr()
+plt.figure (figsize=(20,12))
+sns.heatmap(housing_corr,annot = True, vmin= -1 , cmap = 'YlGnBu')
 
 
+# Strong negative correlation (-0.74) with % lower status of the population (LSTAT)
+# 
+# Strong positive correlation (0.7) with average number of rooms per dwelling (RM)
 
 # In[ ]:
 

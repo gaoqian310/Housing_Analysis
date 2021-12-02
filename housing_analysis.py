@@ -62,11 +62,32 @@ housing_df.describe()
 
 # ## What's the price distribution of the housing?
 
-# In[9]:
+# In[33]:
 
 
 sns.set_theme(style="darkgrid")
-sns.displot(housing_df['MEDV'])
+plt.figure (figsize=(10,6))
+sns.distplot(housing_df['MEDV'], axlabel = 'Median value of owner-occupied homes in $1000')
+
+
+# ## Use displot to reproduce the distplot above
+
+# In[40]:
+
+
+sns.set_theme(style="darkgrid")
+plt.figure (figsize=(10,6))
+sns.displot(housing_df['MEDV'],kde=True)
+
+
+# ## Use histplot to reproduce the distplot above
+
+# In[43]:
+
+
+sns.set_theme(style="darkgrid")
+plt.figure (figsize=(10,6))
+sns.histplot(housing_df['MEDV'],kde=True)
 
 
 # ## Correlation matrix using heatmap

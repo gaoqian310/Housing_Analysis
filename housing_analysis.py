@@ -70,24 +70,29 @@ plt.figure (figsize=(10,6))
 sns.distplot(housing_df['MEDV'], axlabel = 'Median value of owner-occupied homes in $1000')
 
 
+# FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
+# warnings.warn(msg, FutureWarning)
+
 # ## Use displot to reproduce the distplot above
 
-# In[40]:
+# In[45]:
 
 
 sns.set_theme(style="darkgrid")
 plt.figure (figsize=(10,6))
 sns.displot(housing_df['MEDV'],kde=True)
+#sns.displot(housing_df['MEDV'], x = "Median value of owner-occupied homes in $1000", kde=True)
 
 
 # ## Use histplot to reproduce the distplot above
 
-# In[43]:
+# In[47]:
 
 
 sns.set_theme(style="darkgrid")
 plt.figure (figsize=(10,6))
 sns.histplot(housing_df['MEDV'],kde=True)
+#sns.histplot(housing_df['MEDV'], x = "Median value of owner-occupied homes in $1000", kde=True)
 
 
 # ## Correlation matrix using heatmap

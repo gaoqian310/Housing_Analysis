@@ -70,8 +70,7 @@ plt.figure (figsize=(10,6))
 sns.distplot(housing_df['MEDV'], axlabel = 'Median value of owner-occupied homes in $1000')
 
 
-# FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
-# warnings.warn(msg, FutureWarning)
+# <span style="color:red">FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).</span>
 
 # ## Use displot to reproduce the distplot above
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[36]:
 
 
 # Importing libraries
@@ -13,7 +13,7 @@ import seaborn as sns
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[3]:
+# In[37]:
 
 
 # Loading dataset
@@ -22,39 +22,39 @@ housing = load_boston()
 print(housing.keys())
 
 
-# In[4]:
+# In[38]:
 
 
 print (housing.DESCR)
 
 
-# In[5]:
+# In[39]:
 
 
 # Creating dataframe with features
 housing_df = pd.DataFrame(housing.data, columns = housing.feature_names)
 
 
-# In[6]:
+# In[40]:
 
 
 # Adding target variable to the dataset
 housing_df['MEDV'] = housing.target
 
 
-# In[7]:
+# In[41]:
 
 
 housing_df.head()
 
 
-# In[8]:
+# In[42]:
 
 
 housing_df.info()
 
 
-# In[9]:
+# In[43]:
 
 
 housing_df.describe()
@@ -62,7 +62,7 @@ housing_df.describe()
 
 # ## What's the price distribution of the housing?
 
-# In[10]:
+# In[44]:
 
 
 sns.set_theme(style="darkgrid")
@@ -74,7 +74,7 @@ sns.distplot(housing_df['MEDV'], axlabel = 'Median value of owner-occupied homes
 
 # ## Reproduce distplot with kdeplot and histplot
 
-# In[11]:
+# In[45]:
 
 
 sns.set_theme(style="whitegrid")
@@ -93,7 +93,7 @@ plt.show()
 
 # ## Correlation matrix using heatmap
 
-# In[16]:
+# In[46]:
 
 
 # Correlation matrix
@@ -108,7 +108,7 @@ plt.show()
 # 
 # Strong positive correlation (0.7) with average number of rooms per dwelling (RM)
 
-# In[21]:
+# In[47]:
 
 
 # Jointplots for high correlations - lower status population
@@ -122,7 +122,7 @@ plt.show()
 # - LSTAT    % lower status of the population
 # - MEDV     Median value of owner-occupied homes in $1000's
 
-# In[26]:
+# In[48]:
 
 
 # Jointplots for high correlations - number of rooms
@@ -144,7 +144,7 @@ plt.show()
 # - Prepare the dataset
 # - Split the dataset into training (75%) and test (25%) sets
 
-# In[31]:
+# In[49]:
 
 
 # Preparing the dataset
@@ -152,7 +152,7 @@ X = housing_df.drop(['MEDV'], axis = 1)
 Y = housing_df['MEDV']
 
 
-# In[32]:
+# In[50]:
 
 
 # Splitting into training and test sets
@@ -163,7 +163,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.25, rand
 
 # ### First Model: Linear Regression
 
-# In[33]:
+# In[51]:
 
 
 # Training the Linear Regression model
@@ -173,15 +173,15 @@ lm = LinearRegression()
 lm.fit(X_train, Y_train)
 
 
-# In[34]:
+# In[52]:
 
 
 LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
 
 
-# ##### Using Root-mean-square error (RMSE) and R squared (r2_score) to evaluate the model
+# ###### Using Root-mean-square error (RMSE) and R squared (r2_score) to evaluate the model
 
-# In[35]:
+# In[53]:
 
 
 # Evaluating the Linear Regression model for the test set
@@ -194,8 +194,49 @@ print('RMSE_lm = {}'.format(RMSE_lm))
 print('R2_lm = {}'.format(r2_lm))
 
 
-# #### Conclusion
+# ###### Conclusion
 # 
 # This model gives us an RMSE of about 5.2. 
 # 
 # R squared value of 0.72 means that this linear model explains 72% of the total response variable variation.
+
+# ### Second Model: Random Forest
+
+# In[54]:
+
+
+# Training the Random Forest model
+from sklearn.ensemble import RandomForestRegressor
+
+rf = RandomForestRegressor(n_estimators = 10, random_state = 100)
+rf.fit(X_train, Y_train)
+
+
+# In[55]:
+
+
+RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+max_features='auto', max_leaf_nodes=None,
+min_impurity_decrease=0.0, min_impurity_split=None,
+min_samples_leaf=1, min_samples_split=2,
+min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+oob_score=False, random_state=100, verbose=0, warm_start=False)
+
+
+# In[56]:
+
+
+# Evaluating the Random Forest model for the test set
+predictions_rf = rf.predict(X_test)
+RMSE_rf = np.sqrt(mean_squared_error(Y_test, predictions_rf))
+r2_rf = r2_score(Y_test, predictions_rf)
+
+print('RMSE_rf = {}'.format(RMSE_rf))
+print('R2_rf = {}'.format(r2_rf))
+
+
+# In[ ]:
+
+
+
+

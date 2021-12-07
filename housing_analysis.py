@@ -235,6 +235,9 @@ print('RMSE_rf = {}'.format(RMSE_rf))
 print('R2_rf = {}'.format(r2_rf))
 
 
+# ### Conclusion
+# This random forest model is much better one, since teh error is lower, RMSE = 3.6, and the share of explained variation is significantly higher, R2 = 0.87.
+
 # In[ ]:
 
 

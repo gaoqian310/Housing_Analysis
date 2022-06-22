@@ -1,17 +1,3 @@
-# Housing_Analysis_with_Machine_Learning
-
-Data Science Project build through python
-
-### 1. Defining the Project
-
-### 2. Preparing the data
-
-### 3. Exploring and visualizing the data
-
-### 4. Creating a machine learning model
-
-### 5. Presenting your findings
-
 ```python
 # Importing libraries
 import numpy as np
@@ -22,6 +8,7 @@ import seaborn as sns
 %matplotlib inline
 ```
 
+
 ```python
 # Loading dataset
 from sklearn.datasets import load_boston
@@ -31,21 +18,23 @@ print(housing.keys())
 
     dict_keys(['data', 'target', 'feature_names', 'DESCR', 'filename'])
 
+
+
 ```python
 print (housing.DESCR)
 ```
 
     .. _boston_dataset:
-
+    
     Boston house prices dataset
     ---------------------------
-
-    **Data Set Characteristics:**
-
-        :Number of Instances: 506
-
+    
+    **Data Set Characteristics:**  
+    
+        :Number of Instances: 506 
+    
         :Number of Attributes: 13 numeric/categorical predictive. Median Value (attribute 14) is usually the target.
-
+    
         :Attribute Information (in order):
             - CRIM     per capita crime rate by town
             - ZN       proportion of residential land zoned for lots over 25,000 sq.ft.
@@ -61,44 +50,52 @@ print (housing.DESCR)
             - B        1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town
             - LSTAT    % lower status of the population
             - MEDV     Median value of owner-occupied homes in $1000's
-
+    
         :Missing Attribute Values: None
-
+    
         :Creator: Harrison, D. and Rubinfeld, D.L.
-
+    
     This is a copy of UCI ML housing dataset.
     https://archive.ics.uci.edu/ml/machine-learning-databases/housing/
-
-
+    
+    
     This dataset was taken from the StatLib library which is maintained at Carnegie Mellon University.
-
+    
     The Boston house-price data of Harrison, D. and Rubinfeld, D.L. 'Hedonic
     prices and the demand for clean air', J. Environ. Economics & Management,
     vol.5, 81-102, 1978.   Used in Belsley, Kuh & Welsch, 'Regression diagnostics
     ...', Wiley, 1980.   N.B. Various transformations are used in the table on
     pages 244-261 of the latter.
-
+    
     The Boston house-price data has been used in many machine learning papers that address regression
-    problems.
-
+    problems.   
+         
     .. topic:: References
-
+    
        - Belsley, Kuh & Welsch, 'Regression diagnostics: Identifying Influential Data and Sources of Collinearity', Wiley, 1980. 244-261.
        - Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning. In Proceedings on the Tenth International Conference of Machine Learning, 236-243, University of Massachusetts, Amherst. Morgan Kaufmann.
+    
+
+
 
 ```python
 # Creating dataframe with features
 housing_df = pd.DataFrame(housing.data, columns = housing.feature_names)
 ```
 
+
 ```python
 # Adding target variable to the dataset
 housing_df['MEDV'] = housing.target
 ```
 
+
 ```python
 housing_df.head()
 ```
+
+
+
 
 <div>
 <style scoped>
@@ -113,7 +110,6 @@ housing_df.head()
     .dataframe thead th {
         text-align: right;
     }
-
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -225,6 +221,9 @@ housing_df.head()
 </table>
 </div>
 
+
+
+
 ```python
 housing_df.info()
 ```
@@ -232,8 +231,8 @@ housing_df.info()
     <class 'pandas.core.frame.DataFrame'>
     RangeIndex: 506 entries, 0 to 505
     Data columns (total 14 columns):
-     #   Column   Non-Null Count  Dtype
-    ---  ------   --------------  -----
+     #   Column   Non-Null Count  Dtype  
+    ---  ------   --------------  -----  
      0   CRIM     506 non-null    float64
      1   ZN       506 non-null    float64
      2   INDUS    506 non-null    float64
@@ -251,9 +250,14 @@ housing_df.info()
     dtypes: float64(14)
     memory usage: 55.5 KB
 
+
+
 ```python
 housing_df.describe()
 ```
+
+
+
 
 <div>
 <style scoped>
@@ -268,7 +272,6 @@ housing_df.describe()
     .dataframe thead th {
         text-align: right;
     }
-
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -431,7 +434,10 @@ housing_df.describe()
 </table>
 </div>
 
+
+
 ## What's the price distribution of the housing?
+
 
 ```python
 sns.set_theme(style="darkgrid")
@@ -448,11 +454,18 @@ sns.distplot(housing_df['MEDV'], axlabel = 'Median value of owner-occupied homes
 
     <AxesSubplot:xlabel='Median value of owner-occupied homes in $1000', ylabel='Density'>
 
+
+
+
+    
 ![png](housing_analysis_files/housing_analysis_9_2.png)
+    
+
 
 <span style="color:red">FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).</span>
 
 ## Reproduce distplot with kdeplot and histplot
+
 
 ```python
 sns.set_theme(style="whitegrid")
@@ -469,9 +482,14 @@ plt.tight_layout()
 plt.show()
 ```
 
+
+    
 ![png](housing_analysis_files/housing_analysis_12_0.png)
+    
+
 
 ## Correlation matrix using heatmap
+
 
 ```python
 # Correlation matrix
@@ -481,13 +499,17 @@ sns.heatmap(housing_corr,annot = True, vmin= -1 , cmap = 'YlGnBu')
 plt.show()
 ```
 
+
+    
 ![png](housing_analysis_files/housing_analysis_14_0.png)
+    
+
 
 #### Conclusion
-
 Strong negative correlation (-0.74) with % lower status of the population (LSTAT)
 
 Strong positive correlation (0.7) with average number of rooms per dwelling (RM)
+
 
 ```python
 # Jointplots for high correlations - lower status population
@@ -496,16 +518,21 @@ sns.jointplot(x = 'LSTAT', y = 'MEDV', data = housing_df, kind = 'reg', height =
 plt.show()
 ```
 
+
     <Figure size 720x720 with 0 Axes>
 
+
+
+    
 ![png](housing_analysis_files/housing_analysis_16_1.png)
+    
+
 
 #### Conclusion
-
 House pricing is negitave corelated to the lower status ofthe population. likely dependent on the lower status of the population.
+- LSTAT    % lower status of the population
+- MEDV     Median value of owner-occupied homes in $1000's
 
-- LSTAT % lower status of the population
-- MEDV Median value of owner-occupied homes in $1000's
 
 ```python
 # Jointplots for high correlations - number of rooms
@@ -514,29 +541,36 @@ sns.jointplot(x = 'RM', y = 'MEDV', data = housing_df, kind = 'hex', color = 'te
 plt.show()
 ```
 
+
     <Figure size 720x720 with 0 Axes>
 
+
+
+    
 ![png](housing_analysis_files/housing_analysis_18_1.png)
+    
+
 
 #### Conclusion
-
-House pricing is postive corelated to the number of rooms per dwelling.
+House pricing is postive corelated to the number of rooms per dwelling. 
 
 Lots of houses with 6 rooms are at a price around $20k.
 
-- RM average number of rooms per dwelling
-- MEDV Median value of owner-occupied homes in $1000's
+- RM       average number of rooms per dwelling
+- MEDV     Median value of owner-occupied homes in $1000's
 
 ## Creating a Machine Learning Model
 
 - Prepare the dataset
 - Split the dataset into training (75%) and test (25%) sets
 
+
 ```python
 # Preparing the dataset
 X = housing_df.drop(['MEDV'], axis = 1)
 Y = housing_df['MEDV']
 ```
+
 
 ```python
 # Splitting into training and test sets
@@ -547,6 +581,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.25, rand
 
 ### First Model: Linear Regression
 
+
 ```python
 # Training the Linear Regression model
 from sklearn.linear_model import LinearRegression
@@ -555,15 +590,27 @@ lm = LinearRegression()
 lm.fit(X_train, Y_train)
 ```
 
+
+
+
     LinearRegression()
+
+
+
 
 ```python
 LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
 ```
 
+
+
+
     LinearRegression(n_jobs=1)
 
+
+
 ###### Using Root-mean-square error (RMSE) and R squared (r2_score) to evaluate the model
+
 
 ```python
 # Evaluating the Linear Regression model for the test set
@@ -579,13 +626,15 @@ print('R2_lm = {}'.format(r2_lm))
     RMSE_lm = 5.212786603443838
     R2_lm = 0.7246154314616744
 
+
 ###### Conclusion
 
-This model gives us an RMSE of about 5.2.
+This model gives us an RMSE of about 5.2. 
 
 R squared value of 0.72 means that this linear model explains 72% of the total response variable variation.
 
 ### Second Model: Random Forest
+
 
 ```python
 # Training the Random Forest model
@@ -595,7 +644,13 @@ rf = RandomForestRegressor(n_estimators = 10, random_state = 100)
 rf.fit(X_train, Y_train)
 ```
 
+
+
+
     RandomForestRegressor(n_estimators=10, random_state=100)
+
+
+
 
 ```python
 RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
@@ -606,7 +661,13 @@ min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
 oob_score=False, random_state=100, verbose=0, warm_start=False)
 ```
 
+
+
+
     RandomForestRegressor(n_estimators=10, n_jobs=1, random_state=100)
+
+
+
 
 ```python
 # Evaluating the Random Forest model for the test set
@@ -621,14 +682,11 @@ print('R2_rf = {}'.format(r2_rf))
     RMSE_rf = 3.5880185569969294
     R2_rf = 0.8695304788426546
 
-### Conclusion
 
+### Conclusion
 This random forest model is much better one, since teh error is lower, RMSE = 3.6, and the share of explained variation is significantly higher, R2 = 0.87.
+
 
 ```python
 
 ```
-
-##### Credit
-
-Developing Data Science Projects in Python, [find more](https://learnpython.com/blog/developing-python-projects-beginners-guide/)
